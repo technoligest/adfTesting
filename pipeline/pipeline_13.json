@@ -3,18 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Wait1",
-				"type": "Wait",
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
 				"name": "Web1",
 				"type": "WebActivity",
 				"policy": {
 					"timeout": "7.00:00:00",
-					"retry": 0,
+					"retry": 1,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
@@ -22,6 +15,9 @@
 				"typeProperties": {
 					"url": "https://prod-13.eastus.logic.azure.com:443/workflows/6e6937f4422c4bf9af37717209a4f343/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=F5Nwh-PdRY3Yv62XNO7aAZ8kR0FqftGcFP86W_5gogY",
 					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
 					"body": {
 						"value": [
 							{

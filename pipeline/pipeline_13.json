@@ -8,6 +8,37 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 1
 				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"url": "https://prod-13.eastus.logic.azure.com:443/workflows/6e6937f4422c4bf9af37717209a4f343/triggers/request/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Frequest%2Frun&sv=1.0&sig=F5Nwh-PdRY3Yv62XNO7aAZ8kR0FqftGcFP86W_5gogY",
+					"method": "POST",
+					"body": {
+						"value": [
+							{
+								"id": "1807",
+								"eventType": "recordInserted",
+								"subject": "myapp/vehicles/motorcycles",
+								"eventTime": "2017-08-10T21:03:07+00:00",
+								"data": {
+									"make": "Ducati",
+									"model": "Monster"
+								},
+								"dataVersion": "1.0"
+							}
+						],
+						"aeg-key": "L6uPtv1VIgeS6qOzuHO8q6b+cfBeXTsr5aTY2Mk2Hyc="
+					}
+				}
 			}
 		]
 	},

@@ -1,0 +1,180 @@
+{
+    "name": "IPLocationDataDaily",
+    "properties": {
+        "activities": [
+            {
+                "name": "IPLocationDataCurrentVersionFileLookupPpe",
+                "type": "Lookup",
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureDataLakeStoreSource",
+                        "recursive": true
+                    },
+                    "dataset": {
+                        "referenceName": "IPLocationDataCurrentVersionFileLookupPpe",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "IPLocationDataPpe",
+                "type": "DataLakeAnalyticsU-SQL",
+                "dependsOn": [
+                    {
+                        "activity": "IPLocationDataCurrentVersionFileLookupPpe",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "scriptPath": "/adhoc/users/nikhib/Scripts/IPLocationData.usql",
+                    "degreeOfParallelism": 10,
+                    "priority": 1000,
+                    "scriptLinkedService": {
+                        "referenceName": "estsadlscusppe",
+                        "type": "LinkedServiceReference"
+                    },
+                    "parameters": {
+                        "FileName": {
+                            "value": "@{activity('IPLocationDataCurrentVersionFileLookupPpe').output.firstrow.Prop_1}",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "estsadlcusppe",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "IPLocationDataCurrentVersionFileLookupProd",
+                "type": "Lookup",
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureDataLakeStoreSource",
+                        "recursive": true
+                    },
+                    "dataset": {
+                        "referenceName": "IPLocationDataCurrentVersionFileLookupPpe",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "IPLocationDataProd",
+                "type": "DataLakeAnalyticsU-SQL",
+                "dependsOn": [
+                    {
+                        "activity": "IPLocationDataCurrentVersionFileLookupProd",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "scriptPath": "/adhoc/users/nikhib/Scripts/IPLocationData.usql",
+                    "degreeOfParallelism": 10,
+                    "priority": 1000,
+                    "scriptLinkedService": {
+                        "referenceName": "estsadlscusprod",
+                        "type": "LinkedServiceReference"
+                    },
+                    "parameters": {
+                        "FileName": {
+                            "value": "@{activity('IPLocationDataCurrentVersionFileLookupProd').output.firstrow.Prop_1}",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "estsadlcusprod",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "IPLocationDataCurrentVersionFileLookupProdEu",
+                "type": "Lookup",
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureDataLakeStoreSource",
+                        "recursive": true
+                    },
+                    "dataset": {
+                        "referenceName": "IPLocationDataCurrentVersionFileLookupProdEu",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "IPLocationDataProdEu",
+                "type": "DataLakeAnalyticsU-SQL",
+                "dependsOn": [
+                    {
+                        "activity": "IPLocationDataCurrentVersionFileLookupProdEu",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false
+                },
+                "typeProperties": {
+                    "scriptPath": "/adhoc/users/nikhib/Scripts/IPLocationData.usql",
+                    "degreeOfParallelism": 10,
+                    "priority": 1000,
+                    "scriptLinkedService": {
+                        "referenceName": "estsadlsprodeu",
+                        "type": "LinkedServiceReference"
+                    },
+                    "parameters": {
+                        "FileName": {
+                            "value": "@{activity('IPLocationDataCurrentVersionFileLookupProdEu').output.firstrow.Prop_1}",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "estsadlprodeu",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ]
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
+YA

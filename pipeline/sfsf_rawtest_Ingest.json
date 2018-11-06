@@ -1,0 +1,124 @@
+{
+	"name": "sfsf_rawtest_Ingest",
+	"properties": {
+		"description": "Import data from Salesforce API into BLOB storage and dw-datalake",
+		"activities": [
+			{
+				"name": "GetConfigImportList",
+				"type": "Lookup",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Load Tables from Source",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetConfigImportList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetConfigImportList').output.value",
+						"type": "Expression"
+					},
+					"isSequential": "false",
+					"activities": [
+						{
+							"name": "SF Source to SF Unprocessed",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"typeProperties": {
+								"source": {
+									"type": "SalesforceSource",
+									"query": {
+										"value": "@concat('SELECT ', if(empty(item().source_table_columns), '*', item().source_table_columns),' FROM ',item().source_table_name,if(empty(item().source_table_filter), '', concat(' where ', item().source_table_filter)))",
+										"type": "Expression"
+									}
+								},
+								"sink": {
+									"type": "BlobSink",
+									"writeBatchSize": 0,
+									"writeBatchTimeout": "00:00:00"
+								},
+								"enableStaging": false,
+								"dataIntegrationUnits": 0
+							}
+						},
+						{
+							"name": "SF Unprocessed to SF DW",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "SF Source to SF Unprocessed",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"typeProperties": {
+								"waitOnCompletion": true,
+								"parameters": {
+									"batch": {
+										"value": "@item().batch",
+										"type": "Expression"
+									},
+									"job": {
+										"value": "@item().job",
+										"type": "Expression"
+									},
+									"run_id": {
+										"value": "@Pipeline().TriggerTime",
+										"type": "Expression"
+									},
+									"table_name": {
+										"value": "@item().target_table_name",
+										"type": "Expression"
+									},
+									"delete_script": "auto-clear",
+									"source_struct": {
+										"value": "@item().source_struct",
+										"type": "Expression"
+									},
+									"target_struct": {
+										"value": "@item().target_struct",
+										"type": "Expression"
+									},
+									"struct_map": {
+										"value": "@item().struct_map",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"policy": {
+			"retry": 2,
+			"timeout": "01:00:00"
+		}
+	}
+}

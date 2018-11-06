@@ -1,0 +1,116 @@
+{
+    "name": "sfsf_rawtest_Ingest",
+    "properties": {
+        "description": "Import data from Salesforce API into BLOB storage and dw-datalake",
+		"activities": [	
+			{
+                "name": "GetConfigImportList",
+                "type": "Lookup",
+                "typeProperties": {
+                    "source": {
+                        "type": "BlobSource"
+                    },
+                    "dataset": { 
+                        "referenceName": "configuration_parameters", 
+                        "type": "DatasetReference",
+						"parameters":{
+							"batch_name":"salesforce_rawtest"
+						}
+                    },
+					"firstRowOnly": false
+                }                
+            },		
+            {
+                "type": "ForEach",
+				"name": "Load Tables from Source",    	
+				"dependsOn": [
+					{
+						"activity": "GetConfigImportList",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+                "typeProperties": {
+                    "isSequential": "false",
+                    "items": {
+                        "value": "@activity('GetConfigImportList').output.value",
+                        "type": "Expression"
+                    },
+					"activities": [
+						{
+							"type": "Copy",
+							"name": "SF Source to SF Unprocessed",
+							"typeProperties": {
+								"source": {
+									"type": "SalesforceSource",
+									"query": "@concat('SELECT ', if(empty(item().source_table_columns), '*', item().source_table_columns),' FROM ',item().source_table_name,if(empty(item().source_table_filter), '', concat(' where ', item().source_table_filter)))"
+								},
+								"sink": {
+									"type": "BlobSink",
+									"writeBatchSize": 0,
+									"writeBatchTimeout": "00:00:00"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "sfsf_rawtest_Source",
+									"type": "DatasetReference",
+									"parameters":{
+										"source_table_name":"@item().source_table_name"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "sfsa_unprocessed",
+									"type": "DatasetReference",
+									"parameters":{
+										"batch":"@item().batch",
+										"job":"@item().job",
+										"run_id":"@Pipeline().TriggerTime"
+									}
+								}
+							]				
+						},
+						{
+							"name": "SF Unprocessed to SF DW",
+							"type": "ExecutePipeline",
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "generic_load_cache",
+									"type": "PipelineReference"
+								},
+								"parameters": {
+									"batch":"@item().batch",
+									"job":"@item().job",
+									"run_id":"@Pipeline().TriggerTime",
+									
+									"table_name": "@item().target_table_name",
+									"delete_script": "auto-clear",
+									"source_struct": "@item().source_struct",
+									"target_struct": "@item().target_struct",
+									"struct_map": "@item().struct_map"
+								},
+								"waitOnCompletion": true
+							 },
+							 "dependsOn": [
+								{
+									"activity": "SF Source to SF Unprocessed",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],	
+						}
+					]
+				}					
+			},
+				
+		],
+        "policy": {
+          "retry": 2,
+          "timeout": "01:00:00"
+        }
+    }
+}

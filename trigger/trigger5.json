@@ -2,14 +2,6 @@
 	"name": "trigger5",
 	"properties": {
 		"runtimeState": "Stopped",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "pipeline1",
-					"type": "PipelineReference"
-				}
-			}
-		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {

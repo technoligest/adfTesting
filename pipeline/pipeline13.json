@@ -11,7 +11,7 @@
 			}
 		],
 		"folder": {
-			"name": "gsfdg"
+			"name": "folder1"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"

@@ -1,12 +1,12 @@
 {
-	"name": "pipeline5",
+	"name": "yaser_p2",
 	"properties": {
 		"activities": [
 			{
 				"name": "Wait1",
 				"type": "Wait",
 				"typeProperties": {
-					"waitTimeInSeconds": 180
+					"waitTimeInSeconds": 1
 				}
 			}
 		]

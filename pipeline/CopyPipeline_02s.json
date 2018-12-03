@@ -1,9 +1,9 @@
 {
-	"name": "CopyPipeline_5ts",
+	"name": "CopyPipeline_02s",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_5ts",
+				"name": "Copy_02s",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -19,7 +19,7 @@
 					},
 					{
 						"name": "Destination",
-						"value": "[dbo].[BuildVersion]"
+						"value": "[dbo].[HindcastInfo]"
 					}
 				],
 				"typeProperties": {
@@ -31,36 +31,29 @@
 						"writeBatchSize": 10000
 					},
 					"enableStaging": false,
+					"enableSkipIncompatibleRow": false,
 					"dataIntegrationUnits": 0,
 					"translator": {
 						"type": "TabularTranslator",
 						"columnMappings": {
-							"Database Version": "Database Version",
-							"VersionDate": "VersionDate",
-							"ModifiedDate": "ModifiedDate"
+							"Database Version": "lon"
 						}
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_5ts",
+						"referenceName": "SourceDataset_02s",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_5ts",
+						"referenceName": "DestinationDataset_02s",
 						"type": "DatasetReference"
 					}
 				]
 			}
-		],
-		"parameters": {
-			"ds": {
-				"type": "String",
-				"defaultValue": "fsd"
-			}
-		}
+		]
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

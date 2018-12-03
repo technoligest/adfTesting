@@ -1,9 +1,9 @@
 {
-	"name": "CopyPipeline_5ts",
+	"name": "CopyPipeline_iux",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_5ts",
+				"name": "Copy_iux",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -43,24 +43,18 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_5ts",
+						"referenceName": "SourceDataset_iux",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_5ts",
+						"referenceName": "DestinationDataset_iux",
 						"type": "DatasetReference"
 					}
 				]
 			}
-		],
-		"parameters": {
-			"ds": {
-				"type": "String",
-				"defaultValue": "fsd"
-			}
-		}
+		]
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

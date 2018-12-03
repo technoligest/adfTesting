@@ -1,9 +1,9 @@
 {
-	"name": "CopyPipeline_5ts",
+	"name": "CopyPipeline_9ra",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_5ts",
+				"name": "Copy_9ra",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -43,23 +43,20 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_5ts",
+						"referenceName": "SourceDataset_9ra",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_5ts",
+						"referenceName": "DestinationDataset_9ra",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
-		"parameters": {
-			"ds": {
-				"type": "String",
-				"defaultValue": "fsd"
-			}
+		"folder": {
+			"name": "folder1"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"

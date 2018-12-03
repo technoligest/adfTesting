@@ -6,10 +6,16 @@
 				"name": "Wait1",
 				"type": "Wait",
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"waitTimeInSeconds": 100
 				}
 			}
-		]
+		],
+		"parameters": {
+			"yaser": {
+				"type": "String",
+				"defaultValue": "yaser"
+			}
+		}
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

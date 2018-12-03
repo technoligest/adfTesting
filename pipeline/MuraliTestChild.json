@@ -1,12 +1,12 @@
 {
-	"name": "pipeline5",
+	"name": "MuraliTestChild",
 	"properties": {
 		"activities": [
 			{
 				"name": "Wait1",
 				"type": "Wait",
 				"typeProperties": {
-					"waitTimeInSeconds": 180
+					"waitTimeInSeconds": 1
 				}
 			}
 		]

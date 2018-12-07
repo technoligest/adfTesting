@@ -1,0 +1,48 @@
+{
+	"name": "untilBug",
+	"properties": {
+		"activities": [
+			{
+				"name": "Until1",
+				"type": "Until",
+				"typeProperties": {
+					"expression": {
+						"value": "true",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			},
+			{
+				"name": "Until2",
+				"type": "Until",
+				"typeProperties": {
+					"expression": {
+						"value": "true",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

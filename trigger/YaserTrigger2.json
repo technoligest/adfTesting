@@ -1,7 +1,7 @@
 {
-	"name": "trigger1",
+	"name": "YaserTrigger2",
 	"properties": {
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {

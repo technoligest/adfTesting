@@ -15,34 +15,6 @@
 				"typeProperties": {
 					"waitTimeInSeconds": 1
 				}
-			},
-			{
-				"name": "Wait3",
-				"type": "Wait",
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
-				"name": "Wait4",
-				"type": "Wait",
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
-				"name": "Wait5",
-				"type": "Wait",
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
-			},
-			{
-				"name": "Wait6",
-				"type": "Wait",
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
 			}
 		]
 	},
